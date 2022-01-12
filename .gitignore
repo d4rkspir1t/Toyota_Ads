@@ -1,3 +1,5 @@
 /Sounds
 *.pyc
 commands.txt
+/__pycache__
+/.idea
