@@ -1,0 +1,40 @@
+SIM
+roslaunch hsrb_gazebo_launch hsrb_megaweb2015_world.launch
+REAL
+
+rosrun rviz rviz  -d `rospack find hsrb_common_launch`/config/hsrb_display_full_hsrb.rviz
+
+rosrun sound_play soundplay_node.py
+
+rosrun sound_play play.py /home/viktor/Downloads/Coffee.wav 
+
+/opt/ros/melodic/lib/sound_play
+
+su administrator
+sudo su hsr-user
+
+
+ssh administrator@192.168.1.230
+source /opt/ros/kinetic/setup.bash
+roslaunch sound_play soundplay_node.launch
+
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Although I know technology like the Human Support Robot is in its early stages.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Coffee.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Hello everyone.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Hello Siobhan.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Hi kids Have you been behaving yourselves today.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/How are you all doing today.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/I am talking to you through the Toyota Human Support Robot.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/I can boogie.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/I never thought Id hear my voice coming out of a robot.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Many people diagnosed with Motor Neurone Disease may lose their voice.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/My name is Anthony Walsh.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/My voice bank means that if ever I have difficulty speaking.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Shall we go to the park this weekend.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/This technology is amazing.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Turn that frown upside down.wav"
+
+
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Turn that frown upside down.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/I can boogie.wav"
+rosrun sound_play play.py "/home/administrator/sounds/Sounds/Hi kids Have you been behaving yourselves today.wav"
