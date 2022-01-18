@@ -85,16 +85,16 @@ def callback(data):
     if data.buttons[0]:
         # tts.say(u'Work it. Make it. Do it. Makes us.')
         # rospy.sleep(4)
-        move_joint_target(traj.frame_goggle_up1)
+        move_joint_target(traj.frame_stick_1)
         # tts.say(u'I\'m on my way')
         # rospy.sleep(2)
     if data.buttons[1]:
-        move_joint_target(traj.frame_goggle_up2)
+        move_joint_target(traj.frame_stick_2)
         # tts.say(u'Yes, sure')
         # volume = 1.0
         # rospy.sleep(1)
     elif data.buttons[2]:
-        move_joint_target(traj.frame_goggle_down1)
+        move_joint_target(traj.frame_stick_2x10)
         # tts.say(u'No, sorry')
         # rospy.sleep(2)
     elif data.buttons[3]:
