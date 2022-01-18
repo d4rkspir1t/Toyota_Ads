@@ -22,7 +22,7 @@ robot = hsrb_interface.Robot()
 gripper = robot.get('gripper')
 joystick_camera = False
 p = rospy.Publisher("/hsrb/command_velocity", Twist, queue_size=1)
-display_pub = rospy.Publisher('/robot_mount_wui/display_image', String, queue_size=1)
+display_pub = rospy.Publisher('/robot_mount_wui/display_image', String, queue_size=10)
 tts = robot.try_get('default_tts')
 # tts.language = tts.ENGLISH
 # tts.volume = 1.0
@@ -39,7 +39,7 @@ status_led_topic = '/hsrb/command_status_led_rgb'
 led_pub = rospy.Publisher(status_led_topic,
                           ColorRGBA, queue_size=100)
 led_pub.publish(green)
-color_arr = [purple, purple, purple, purple, purple, purple]
+color_arr = [cyan, cyan, cyan, cyan, cyan, cyan]
 # color_arr = [blue, green, cyan, red, purple, yellow]
 current_color_idx = 0
 color = color_arr[current_color_idx]
@@ -158,8 +158,8 @@ def color_set(color_cb):
 
 def display_cb(msg):
     image_path = msg.data
-    if image_path != 'sg sg.jpg':
-        display_pub.publish('sg sg.jpg')
+    if image_path != '/home/administrator/images/test_img.png':
+        display_pub.publish('/home/administrator/images/test_img.png')
 
 
 def joy_mover():
@@ -167,8 +167,8 @@ def joy_mover():
 
     rospy.Subscriber("/hsrb/joy", Joy, callback, queue_size=1)
     rospy.Subscriber(status_led_topic, ColorRGBA, color_set, queue_size=1)
-    rospy.Subscriber('/robot_mount_wui/display_image', String, display_cb)
-
+    # rospy.Subscriber('/robot_mount_wui/display_image', String, display_cb)
+    display_pub.publish('/home/administrator/images/test_img.jpg')
     # move_joint_target(traj.frame23s)
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
