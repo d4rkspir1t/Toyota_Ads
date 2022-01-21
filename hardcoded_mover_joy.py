@@ -131,11 +131,12 @@ def move_head(pan, tilt):
 def close_gripper_full_force():
     rospy.sleep(0.05)
     if (gripper_state % 2) == 0:
-        gripper.apply_force(0.5)
+        gripper.command(2)
     else:
         # gripper.command(0)
-        gripper.apply_force(-1.2)
-    return gripper_state + 1
+        gripper.apply_force(2)
+    global gripper_state
+    gripper_state = gripper_state + 1
 
 
 def move_joint_target(trajectory):

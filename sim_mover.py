@@ -55,10 +55,11 @@ def move_head(pan, tilt):
 def close_gripper_full_force():
     rospy.sleep(0.05)
     if (gripper_state % 2) == 0:
-        gripper.apply_force(0.0)
+        gripper.command(2)
     else:
-        gripper.command(1.2)
-    return gripper_state + 1
+        gripper.apply_force(2)
+    global gripper_state
+    gripper_state = gripper_state + 1
 
 
 def move_joint_target(trajectory):
@@ -86,14 +87,23 @@ if __name__ == '__main__':
     # joy_mover()
     # print('FIRST')
     #-----------------------------------------------
-    move_joint_target(traj.frame_goggle_up1)
-    rospy.sleep(1)
-    move_joint_target(traj.frame_goggle_up2)
-    rospy.sleep(3)
-    move_joint_target(traj.frame_goggle_down1)
-    rospy.sleep(1)
-    move_joint_target(traj.frame_goggle_down2)
+    # close_gripper_full_force()
+    # rospy.sleep(1)
+    # close_gripper_full_force()
+    # # print(gripper_state)
+    # move_joint_target(traj.frame_stick_2x10)
+    # rospy.sleep(1)
+    # move_joint_target(traj.frame_stick_down)
+    # rospy.sleep(1)
+    # close_gripper_full_force()
+    # rospy.sleep(1)
+    # move_joint_target(traj.frame_stick_lift)
+    # gripper.command(0.5)
+    # rospy.sleep(1)
     # -----------------------------------------------
+
+    move_joint_target(traj.frame_hood_off)
+    rospy.sleep(1)
     # rate = rospy.Rate(10)
     # while not rospy.is_shutdown():
     #     move_joint_target(traj.frame_stick_1)
