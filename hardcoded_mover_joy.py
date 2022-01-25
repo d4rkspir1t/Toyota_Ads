@@ -85,20 +85,21 @@ def callback(data):
     if data.buttons[0]:
         # tts.say(u'Work it. Make it. Do it. Makes us.')
         # rospy.sleep(4)
-        move_joint_target(traj.frame_stick_1)
-        # tts.say(u'I\'m on my way')
+        move_joint_target(traj.frame_goggle_side_1)
+        # tts.say(u'Oh no')
         # rospy.sleep(2)
     if data.buttons[1]:
-        move_joint_target(traj.frame_stick_2)
-        # tts.say(u'Yes, sure')
+        # move_joint_target(traj.frame_hood_off)
+        move_joint_target(traj.frame_goggle_side_2a)
+        # tts.say(u'Goodbye!')
         # volume = 1.0
         # rospy.sleep(1)
     elif data.buttons[2]:
-        move_joint_target(traj.frame_stick_2x10)
+        move_joint_target(traj.frame_goggle_side_3a)
         # tts.say(u'No, sorry')
         # rospy.sleep(2)
     elif data.buttons[3]:
-        move_joint_target(traj.frame_goggle_down2)
+        move_joint_target(traj.frame_last_move_4)
         # tts.say(u'Hello')
         # rospy.sleep(2)
 
@@ -131,10 +132,11 @@ def move_head(pan, tilt):
 def close_gripper_full_force():
     rospy.sleep(0.05)
     if (gripper_state % 2) == 0:
-        gripper.command(2)
+        # gripper.command(1)
+        gripper.apply_force(0)
     else:
         # gripper.command(0)
-        gripper.apply_force(2)
+        gripper.apply_force(5)
     global gripper_state
     gripper_state = gripper_state + 1
 
