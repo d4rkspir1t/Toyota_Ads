@@ -3,8 +3,10 @@
 """
 Simple hacky node that calls selection of TME movement functions and other stuff based on controller buttons
 """
+import random
+
 import rospy
-import winterbot_traj as traj
+import tdk_traj as traj
 import hsrb_interface
 from tme_hsr_lib import movements
 
@@ -16,6 +18,7 @@ from std_msgs.msg import ColorRGBA, String
 # from sound_play.libsoundplay import SoundClient
 # import threading
 
+show_text_state = 0
 gripper_state = 0
 move = movements.Movements()
 robot = hsrb_interface.Robot()
@@ -85,23 +88,27 @@ def callback(data):
     if data.buttons[0]:
         # tts.say(u'Work it. Make it. Do it. Makes us.')
         # rospy.sleep(4)
-        move_joint_target(traj.frame_goggle_side_1)
+        move_joint_target(traj.flower_getgive)
         # tts.say(u'Oh no')
         # rospy.sleep(2)
     if data.buttons[1]:
         # move_joint_target(traj.frame_hood_off)
-        move_joint_target(traj.frame_goggle_side_2a)
+        move_joint_target(traj.flower_transport)
         # tts.say(u'Goodbye!')
         # volume = 1.0
         # rospy.sleep(1)
     elif data.buttons[2]:
-        move_joint_target(traj.frame_goggle_side_3a)
-        # tts.say(u'No, sorry')
-        # rospy.sleep(2)
+        tts.say(say_congrats())
+        rospy.sleep(2)
     elif data.buttons[3]:
-        move_joint_target(traj.frame_last_move_4)
+        tts.say(say_script())
+        rospy.sleep(5)
+        global show_text_state
+        show_text_state += 1
+        # move_joint_target(traj.frame_last_move_4)
         # tts.say(u'Hello')
         # rospy.sleep(2)
+        pass
 
     if data.buttons[11]:  # if button 11 is pressed, close the gripper
         gripper_state = close_gripper_full_force()
@@ -117,6 +124,18 @@ def callback(data):
     if data.buttons[8]:
         move_base_skewed()
 
+
+def say_congrats():
+    possible_sentences = [u'Congratulations!', u'Thank you!', u'I am pleased to give this to you!', u'Please accept this award!']
+    sentence = random.choice(possible_sentences)
+    return sentence
+
+
+def say_script():
+    speech_segment = ['Hey, I am HSR and I am very glad to be here to celebrate all you awesome retailers',
+                      'Okay Felix. Should we get this party started, with the first Award?',
+                      'Goodbye! And I hope to see you all later at the demo booth!']
+    return speech_segment[show_text_state]
 
 def move_base_skewed():
     tw = Twist()
@@ -171,7 +190,7 @@ def joy_mover():
     rospy.Subscriber("/hsrb/joy", Joy, callback, queue_size=1)
     rospy.Subscriber(status_led_topic, ColorRGBA, color_set, queue_size=1)
     # rospy.Subscriber('/robot_mount_wui/display_image', String, display_cb)
-    display_pub.publish('/home/administrator/images/test_img.jpg')
+    # display_pub.publish('/home/administrator/images/test_img.jpg')
     # move_joint_target(traj.frame23s)
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

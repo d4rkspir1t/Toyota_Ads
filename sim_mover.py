@@ -4,7 +4,7 @@
 Simple hacky node that calls selection of TME movement functions and other stuff based on controller buttons
 """
 import rospy
-import winterbot_traj as traj
+import tdk_traj as traj
 import hsrb_interface
 from tme_hsr_lib import movements
 import time
@@ -74,7 +74,6 @@ def move_joint_target(trajectory):
                                                   movement_duration_in_s=pose['time'])
         rospy.sleep(pose['time'])
 
-
 # def joy_mover():
 #     # rospy.init_node('joy_mover', anonymous=True)
 
@@ -102,8 +101,12 @@ if __name__ == '__main__':
     # rospy.sleep(1)
     # -----------------------------------------------
 
-    move_joint_target(traj.frame_hood_off)
-    rospy.sleep(1)
+    move_joint_target(traj.flower_getgive)
+    rospy.sleep(5)
+    move_joint_target(traj.flower_transport)
+    rospy.sleep(5)
+    move_joint_target(traj.wave_goodbye)
+    rospy.sleep(3)
     # rate = rospy.Rate(10)
     # while not rospy.is_shutdown():
     #     move_joint_target(traj.frame_stick_1)
@@ -136,6 +139,6 @@ if __name__ == '__main__':
     # move_joint_target(traj.frame23)
 
     # move_joint_target(traj.frameBOX1)
-    rospy.sleep(1)
+    # rospy.sleep(1)
     # move_joint_target(traj.frameBOX2)    
     # move_joint_target(traj.frameBOX2)
