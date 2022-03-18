@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2.7
 # -*- coding: utf-8 -*-
 """
 Simple hacky node that calls selection of TME movement functions and other stuff based on controller buttons
@@ -21,6 +21,7 @@ from std_msgs.msg import ColorRGBA, String
 show_text_state = 0
 gripper_state = 0
 move = movements.Movements()
+print('MOVEMENT SETUP')
 robot = hsrb_interface.Robot()
 gripper = robot.get('gripper')
 joystick_camera = False
@@ -61,6 +62,7 @@ color = color_arr[current_color_idx]
 
 def callback(data):
     global gripper_state
+    # print('DATA in', data)
     if data.buttons[0]:
         print(0)
     elif data.buttons[1]:
@@ -69,8 +71,8 @@ def callback(data):
         print(2)
     elif data.buttons[3]:
         print(3)
-    # elif data.buttons[4]:
-    #     print(4)
+    elif data.buttons[4]:
+        print(4)
     elif data.buttons[5]:
         print(5)
     elif data.buttons[6]:
@@ -85,26 +87,33 @@ def callback(data):
         print(10)
     elif data.buttons[11]:
         print(11)
+    # if data.buttons[0] and not data.buttons[4]:
     if data.buttons[0]:
         # tts.say(u'Work it. Make it. Do it. Makes us.')
         # rospy.sleep(4)
         move_joint_target(traj.flower_getgive)
         # tts.say(u'Oh no')
-        # rospy.sleep(2)
+        # rospy.sleep(1)
+    # if data.buttons[1] and not data.buttons[4]:
     if data.buttons[1]:
         # move_joint_target(traj.frame_hood_off)
         move_joint_target(traj.flower_transport)
         # tts.say(u'Goodbye!')
         # volume = 1.0
         # rospy.sleep(1)
+    # elif data.buttons[2] and not data.buttons[4]:
     elif data.buttons[2]:
         tts.say(say_congrats())
-        rospy.sleep(2)
+        rospy.sleep(1)
+    # elif data.buttons[3] and not data.buttons[4]:
     elif data.buttons[3]:
         tts.say(say_script())
-        rospy.sleep(5)
+        rospy.sleep(4)
         global show_text_state
-        show_text_state += 1
+        if show_text_state == 2:
+            show_text_state = 0
+        else:
+            show_text_state += 1
         # move_joint_target(traj.frame_last_move_4)
         # tts.say(u'Hello')
         # rospy.sleep(2)
@@ -121,8 +130,8 @@ def callback(data):
         pan = data.axes[4]
         tilt = -data.axes[5]
         move_head(pan/3.5, tilt/5)
-    if data.buttons[8]:
-        move_base_skewed()
+    # if data.buttons[8]:
+    #     move_base_skewed()
 
 
 def say_congrats():
@@ -133,15 +142,15 @@ def say_congrats():
 
 def say_script():
     speech_segment = ['Hey, I am HSR and I am very glad to be here to celebrate all you awesome retailers',
-                      'Okay Felix. Should we get this party started, with the first Award?',
+                      'Okay Felix. Should we get this party started with the first award?',
                       'Goodbye! And I hope to see you all later at the demo booth!']
     return speech_segment[show_text_state]
 
-def move_base_skewed():
-    tw = Twist()
-    tw.linear.x = 0.1
-    tw.linear.y = -0.1
-    p.publish(tw)
+# def move_base_skewed():
+#     tw = Twist()
+#     tw.linear.x = 0.1
+#     tw.linear.y = -0.1
+#     p.publish(tw)
 
 
 def move_head(pan, tilt):
@@ -187,7 +196,9 @@ def display_cb(msg):
 def joy_mover():
     # rospy.init_node('joy_mover', anonymous=True)
 
-    rospy.Subscriber("/hsrb/joy", Joy, callback, queue_size=1)
+    # rospy.Subscriber("/hsrb/joy", Joy, callback, queue_size=1)
+    rospy.Subscriber("/hsrb/joy_ps4", Joy, callback, queue_size=1)
+    print('subscribed!')
     rospy.Subscriber(status_led_topic, ColorRGBA, color_set, queue_size=1)
     # rospy.Subscriber('/robot_mount_wui/display_image', String, display_cb)
     # display_pub.publish('/home/administrator/images/test_img.jpg')
