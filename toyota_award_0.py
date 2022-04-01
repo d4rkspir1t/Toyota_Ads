@@ -110,15 +110,7 @@ def callback(data):
     # elif data.buttons[3] and not data.buttons[4]:
     elif data.buttons[3]:
         tts.say(say_script())
-        if show_text_state == 2:
-            move_joint_target(traj.wave_goodbye)
-        
-        rospy.sleep(3)
-        global show_text_state
-        if show_text_state == 2:
-            show_text_state = 0
-        else:
-            show_text_state += 1
+        move_joint_target(traj.wave_goodbye)
         # move_joint_target(traj.frame_last_move_4)
         # tts.say(u'Hello')
         # rospy.sleep(2)
@@ -146,11 +138,7 @@ def say_congrats():
 
 
 def say_script():
-    speech_segment = ['Ya er fra Danmark',
-                        'Ya er mai smarter end dai',
-    'Hey, I am HSR and I am very glad to be here to celebrate all you awesome retailers',
-                      'Okay Felix. Should we get this party started with the first award?',
-                      'Goodbye! And I hope to see you all later at the demo booth!']
+    speech_segment = ['Goodbye! And I hope to see you all later at the demo booth!']
     return speech_segment[show_text_state]
 
 # def move_base_skewed():

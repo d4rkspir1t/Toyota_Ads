@@ -20,6 +20,7 @@ from std_msgs.msg import ColorRGBA, String
 
 show_text_state = 0
 gripper_state = 0
+interaction_text_state = 0
 move = movements.Movements()
 print('MOVEMENT SETUP')
 robot = hsrb_interface.Robot()
@@ -89,24 +90,17 @@ def callback(data):
         print(11)
     # if data.buttons[0] and not data.buttons[4]:
     if data.buttons[0]:
-        # tts.say(u'Work it. Make it. Do it. Makes us.')
-        # rospy.sleep(4)
-        move_joint_target(traj.flower_getgive)
-        # tts.say(u'Oh no')
-        # rospy.sleep(1)
-    # if data.buttons[1] and not data.buttons[4]:
+        pass
     if data.buttons[1]:
-        # move_joint_target(traj.frame_hood_off)
-        move_joint_target(traj.flower_transport)
-        # tts.say(u'Goodbye!')
-        # volume = 1.0
-        # rospy.sleep(1)
-    # elif data.buttons[2] and not data.buttons[4]:
+        tts.say(say_interaction())
+        rospy.sleep(3)
+        global interaction_text_state
+        if interaction_text_state == 1:
+            interaction_text_state = 0
+        else:
+            interaction_text_state += 1
     elif data.buttons[2]:
-        move_joint_target(traj.flower_getgive)
-        rospy.sleep(1.5)
-        tts.say(say_congrats())
-        rospy.sleep(1)
+        move_joint_target(traj.flower_transport)
     # elif data.buttons[3] and not data.buttons[4]:
     elif data.buttons[3]:
         tts.say(say_script())
@@ -115,15 +109,10 @@ def callback(data):
         
         rospy.sleep(3)
         global show_text_state
-        if show_text_state == 2:
+        if show_text_state == 1:
             show_text_state = 0
         else:
             show_text_state += 1
-        # move_joint_target(traj.frame_last_move_4)
-        # tts.say(u'Hello')
-        # rospy.sleep(2)
-        pass
-
     if data.buttons[11]:  # if button 11 is pressed, close the gripper
         gripper_state = close_gripper_full_force()
     if joystick_camera:
@@ -139,19 +128,16 @@ def callback(data):
     #     move_base_skewed()
 
 
-def say_congrats():
-    possible_sentences = [u'Congratulations!', u'Thank you!', u'I am pleased to give this to you!', u'Please accept this award!']
-    sentence = random.choice(possible_sentences)
-    return sentence
-
-
 def say_script():
-    speech_segment = ['Ya er fra Danmark',
-                        'Ya er mai smarter end dai',
-    'Hey, I am HSR and I am very glad to be here to celebrate all you awesome retailers',
+    speech_segment = ['Hey, I am HSR and I am very glad to be here to celebrate all you awesome retailers',
                       'Okay Felix. Should we get this party started with the first award?',
                       'Goodbye! And I hope to see you all later at the demo booth!']
     return speech_segment[show_text_state]
+
+def say_interaction():
+    speech_segment = ['Ya er fra Danmark',
+                        'Ya er mai smarter end dai']
+    return speech_segment[interaction_text_state]
 
 # def move_base_skewed():
 #     tw = Twist()

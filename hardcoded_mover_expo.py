@@ -87,42 +87,30 @@ def callback(data):
         print(10)
     elif data.buttons[11]:
         print(11)
-    # if data.buttons[0] and not data.buttons[4]:
+
     if data.buttons[0]:
-        # tts.say(u'Work it. Make it. Do it. Makes us.')
-        # rospy.sleep(4)
-        move_joint_target(traj.flower_getgive)
-        # tts.say(u'Oh no')
-        # rospy.sleep(1)
-    # if data.buttons[1] and not data.buttons[4]:
+        move_joint_target(traj.rest_position)
+        rospy.sleep(0.5)
     if data.buttons[1]:
-        # move_joint_target(traj.frame_hood_off)
-        move_joint_target(traj.flower_transport)
-        # tts.say(u'Goodbye!')
-        # volume = 1.0
-        # rospy.sleep(1)
-    # elif data.buttons[2] and not data.buttons[4]:
+        move_joint_target(traj.pick_up_move)
+        rospy.sleep(0.5)
     elif data.buttons[2]:
-        move_joint_target(traj.flower_getgive)
-        rospy.sleep(1.5)
-        tts.say(say_congrats())
-        rospy.sleep(1)
-    # elif data.buttons[3] and not data.buttons[4]:
+        move_joint_target(traj.put_down_move)
+        rospy.sleep(0.5)
     elif data.buttons[3]:
-        tts.say(say_script())
-        if show_text_state == 2:
-            move_joint_target(traj.wave_goodbye)
-        
-        rospy.sleep(3)
-        global show_text_state
-        if show_text_state == 2:
-            show_text_state = 0
-        else:
-            show_text_state += 1
-        # move_joint_target(traj.frame_last_move_4)
-        # tts.say(u'Hello')
-        # rospy.sleep(2)
-        pass
+        presenting = True
+        while presenting:
+            # if show_text_state == 1:
+            #     move_joint_target(traj.wave_hi_expo)
+            script_to_say, sleep_val = say_script()
+            tts.say(script_to_say)
+            rospy.sleep(sleep_val)
+            global show_text_state
+            if show_text_state == 7:
+                show_text_state = 0
+                presenting = False
+            else:
+                show_text_state += 1
 
     if data.buttons[11]:  # if button 11 is pressed, close the gripper
         gripper_state = close_gripper_full_force()
@@ -135,8 +123,6 @@ def callback(data):
         pan = data.axes[4]
         tilt = -data.axes[5]
         move_head(pan/3.5, tilt/5)
-    # if data.buttons[8]:
-    #     move_base_skewed()
 
 
 def say_congrats():
@@ -146,11 +132,14 @@ def say_congrats():
 
 
 def say_script():
-    speech_segment = ['Ya er fra Danmark',
-                        'Ya er mai smarter end dai',
-    'Hey, I am HSR and I am very glad to be here to celebrate all you awesome retailers',
-                      'Okay Felix. Should we get this party started with the first award?',
-                      'Goodbye! And I hope to see you all later at the demo booth!']
+    speech_segment = [('Hey, I am HSR, but you can also call me Kevin.', 4.0),
+                        ('HSR stands for human support robot. ', 3.0),
+                        ('I can become a simple carer for those in need.', 3.0),
+                        ('Or simply a customer support robot.', 3.0),
+                        ('I just hope to help really.', 2.0),
+                        ('Currently I can\'t talk properly with you, but I promise I can also hold a conversation.', 5.5),
+                        ('If you want to see me move around or move objects, ask my humans.', 4.5),
+                        ('They are here to help me out and ensure my safety today.', 5.0)]
     return speech_segment[show_text_state]
 
 # def move_base_skewed():
