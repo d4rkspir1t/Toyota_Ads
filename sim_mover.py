@@ -4,7 +4,7 @@
 Simple hacky node that calls selection of TME movement functions and other stuff based on controller buttons
 """
 import rospy
-import tdk_traj as traj
+import tsw_traj as traj
 import hsrb_interface
 from tme_hsr_lib import movements
 import time
@@ -15,7 +15,7 @@ from geometry_msgs.msg import Twist
 gripper_state = 0
 move = movements.Movements()
 robot = hsrb_interface.Robot()
-gripper = robot.get('gripper')
+# gripper = robot.get('gripper')
 joystick_camera = False
 p = rospy.Publisher("/hsrb/command_velocity", Twist, queue_size=1)
 
@@ -105,15 +105,9 @@ if __name__ == '__main__':
     # rospy.sleep(5)
     # move_joint_target(traj.flower_transport)
     # rospy.sleep(5)
-    move_joint_target(traj.rest_position)
+    move_joint_target(traj.conduct1)
     rospy.sleep(3)
     print('REST')
-    move_joint_target(traj.pick_up_move)
-    rospy.sleep(3)
-    print('UP')
-    move_joint_target(traj.put_down_move)
-    rospy.sleep(3)
-    print('DOWN')
     # rate = rospy.Rate(10)
     # while not rospy.is_shutdown():
     #     move_joint_target(traj.frame_stick_1)

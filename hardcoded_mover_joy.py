@@ -6,7 +6,7 @@ Simple hacky node that calls selection of TME movement functions and other stuff
 import random
 
 import rospy
-import tdk_traj as traj
+import tsw_traj as traj
 import hsrb_interface
 from tme_hsr_lib import movements
 
@@ -43,7 +43,7 @@ status_led_topic = '/hsrb/command_status_led_rgb'
 led_pub = rospy.Publisher(status_led_topic,
                           ColorRGBA, queue_size=100)
 led_pub.publish(green)
-color_arr = [cyan, cyan, cyan, cyan, cyan, cyan]
+color_arr = [green, green, green, green, green, green]
 # color_arr = [blue, green, cyan, red, purple, yellow]
 current_color_idx = 0
 color = color_arr[current_color_idx]
@@ -91,34 +91,52 @@ def callback(data):
     if data.buttons[0]:
         # tts.say(u'Work it. Make it. Do it. Makes us.')
         # rospy.sleep(4)
-        move_joint_target(traj.flower_getgive)
-        # tts.say(u'Oh no')
+        global color
+        color_arr = [green, green, green, green, green, green]
+        # color_arr = [blue, green, cyan, red, purple, yellow]
+        current_color_idx = 0
+        color = color_arr[current_color_idx]
+        move_joint_target(traj.conduct_start)
+        for _ in range(5):
+            move_joint_target(traj.conduct1)
         # rospy.sleep(1)
     # if data.buttons[1] and not data.buttons[4]:
     if data.buttons[1]:
         # move_joint_target(traj.frame_hood_off)
-        move_joint_target(traj.flower_transport)
+        global color
+        color_arr = [green, green, green, green, green, green]
+        # color_arr = [blue, green, cyan, red, purple, yellow]
+        current_color_idx = 0
+        color = color_arr[current_color_idx]
+        move_joint_target(traj.standby)
         # tts.say(u'Goodbye!')
         # volume = 1.0
         # rospy.sleep(1)
     # elif data.buttons[2] and not data.buttons[4]:
     elif data.buttons[2]:
-        move_joint_target(traj.flower_getgive)
-        rospy.sleep(1.5)
-        tts.say(say_congrats())
-        rospy.sleep(1)
+        global color
+        color_arr = [green, green, green, green, green, green]
+        # color_arr = [blue, green, cyan, red, purple, yellow]
+        current_color_idx = 0
+        color = color_arr[current_color_idx]
+        # move_joint_target(traj.wake_up2)
+        # move_joint_target(traj.flower_getgive)
+        # rospy.sleep(1.5)
+        # tts.say(say_congrats())
+        # rospy.sleep(1)
+        pass
     # elif data.buttons[3] and not data.buttons[4]:
     elif data.buttons[3]:
-        tts.say(say_script())
-        if show_text_state == 2:
-            move_joint_target(traj.wave_goodbye)
+        # tts.say(say_script())
+        # if show_text_state == 2:
+        #     move_joint_target(traj.wave_goodbye)
         
-        rospy.sleep(3)
-        global show_text_state
-        if show_text_state == 2:
-            show_text_state = 0
-        else:
-            show_text_state += 1
+        # rospy.sleep(3)
+        # global show_text_state
+        # if show_text_state == 2:
+        #     show_text_state = 0
+        # else:
+        #     show_text_state += 1
         # move_joint_target(traj.frame_last_move_4)
         # tts.say(u'Hello')
         # rospy.sleep(2)
@@ -126,12 +144,14 @@ def callback(data):
 
     if data.buttons[11]:  # if button 11 is pressed, close the gripper
         gripper_state = close_gripper_full_force()
+    # print('DATA AXES', data.axes)
     if joystick_camera:
         if data.buttons[7] and (data.axes[2] is not 0.0 or data.axes[3] is not 0.0):
             pan = data.axes[2]
             tilt = -data.axes[3]
             move_head(pan/5, tilt/5)
-    elif data.buttons[4] and (data.axes[4] is not 0.0 or data.axes[5] is not 0.0):
+    # elif data.buttons[4] and (data.axes[4] is not 0.0 or data.axes[5] is not 0.0):
+    elif (data.axes[4] is not 0.0 or data.axes[5] is not 0.0):
         pan = data.axes[4]
         tilt = -data.axes[5]
         move_head(pan/3.5, tilt/5)

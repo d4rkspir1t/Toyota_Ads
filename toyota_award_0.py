@@ -26,10 +26,10 @@ robot = hsrb_interface.Robot()
 gripper = robot.get('gripper')
 joystick_camera = False
 p = rospy.Publisher("/hsrb/command_velocity", Twist, queue_size=1)
-display_pub = rospy.Publisher('/robot_mount_wui/display_image', String, queue_size=10)
+# display_pub = rospy.Publisher('/robot_mount_wui/display_image', String, queue_size=10)
 tts = robot.try_get('default_tts')
-# tts.language = tts.ENGLISH
-# tts.volume = 1.0
+tts.language = tts.ENGLISH
+tts.volume = 1.0
 
 # soundhandle = SoundClient()
 
@@ -191,8 +191,8 @@ def display_cb(msg):
 def joy_mover():
     # rospy.init_node('joy_mover', anonymous=True)
 
-    rospy.Subscriber("/hsrb/joy", Joy, callback, queue_size=1)
-    # rospy.Subscriber("/hsrb/joy_ps4", Joy, callback, queue_size=1)
+    # rospy.Subscriber("/hsrb/joy", Joy, callback, queue_size=1)
+    rospy.Subscriber("/hsrb/joy_ps4", Joy, callback, queue_size=1)
     print('subscribed!')
     rospy.Subscriber(status_led_topic, ColorRGBA, color_set, queue_size=1)
     # rospy.Subscriber('/robot_mount_wui/display_image', String, display_cb)

@@ -3,3 +3,6 @@
 commands.txt
 /__pycache__
 /.idea
+/tsw
+/pil_dependencies
+*.mp4
