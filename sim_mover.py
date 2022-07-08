@@ -4,7 +4,7 @@
 Simple hacky node that calls selection of TME movement functions and other stuff based on controller buttons
 """
 import rospy
-import tsw_traj as traj
+import tnu_traj as traj
 import hsrb_interface
 from tme_hsr_lib import movements
 import time
@@ -83,63 +83,17 @@ def move_joint_target(trajectory):
 
 
 if __name__ == '__main__':
-    # joy_mover()
-    # print('FIRST')
-    #-----------------------------------------------
-    # close_gripper_full_force()
-    # rospy.sleep(1)
-    # close_gripper_full_force()
-    # # print(gripper_state)
-    # move_joint_target(traj.frame_stick_2x10)
-    # rospy.sleep(1)
-    # move_joint_target(traj.frame_stick_down)
-    # rospy.sleep(1)
-    # close_gripper_full_force()
-    # rospy.sleep(1)
-    # move_joint_target(traj.frame_stick_lift)
-    # gripper.command(0.5)
-    # rospy.sleep(1)
-    # -----------------------------------------------
-
-    # move_joint_target(traj.flower_getgive)
-    # rospy.sleep(5)
-    # move_joint_target(traj.flower_transport)
-    # rospy.sleep(5)
-    move_joint_target(traj.conduct1)
+    move_joint_target(traj.standby)
     rospy.sleep(3)
-    print('REST')
-    # rate = rospy.Rate(10)
-    # while not rospy.is_shutdown():
-    #     move_joint_target(traj.frame_stick_1)
-    #     rate.sleep()
-
-    #------------------------------------------------
-
-    # gripper_state = close_gripper_full_force()
-    # gripper_state = close_gripper_full_force()
-    # rospy.init_node('play', anonymous=True)
-
-    # print(time.time())
-    # rospy.sleep(4)
-    # print(time.time())
-    # print('SECOND')
-    # move_joint_target(traj.frame33B)
-    # print(time.time())
-    # rospy.sleep(4)
-    # print(time.time())
-    # print('THIRD')
-    # gripper_state = close_gripper_full_force()
-    # rospy.sleep(4)
-    # gripper_state = close_gripper_full_force()
-    
-    # move_joint_target(traj.frame10A)
-    # gripper.command(0.5)
-
-    # move_joint_target(traj.frame23s)
-    # rospy.sleep(5)
-    # move_joint_target(traj.frame23)
-
-    # move_joint_target(traj.frameBOX1)
-    # rospy.sleep(1)
-    # move_joint_target(traj.frameBOX2)    
-    # move_joint_target(traj.frameBOX2)
+    print('DONE')
+    move_joint_target(traj.toast)
+    rospy.sleep(3)
+    print('DONE')
+    move_joint_target(traj.clink_start)
+    rospy.sleep(1)
+    move_joint_target(traj.clink)
+    rospy.sleep(3)
+    print('DONE')
+    move_joint_target(traj.selfie)
+    rospy.sleep(3)
+    print('DONE')

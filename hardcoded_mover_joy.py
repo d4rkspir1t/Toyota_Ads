@@ -6,7 +6,7 @@ Simple hacky node that calls selection of TME movement functions and other stuff
 import random
 
 import rospy
-import tsw_traj as traj
+import tnu_traj as traj
 import hsrb_interface
 from tme_hsr_lib import movements
 
@@ -47,18 +47,6 @@ color_arr = [green, green, green, green, green, green]
 # color_arr = [blue, green, cyan, red, purple, yellow]
 current_color_idx = 0
 color = color_arr[current_color_idx]
-# led_pub.publish(blue) 
-# rospy.sleep(1) 
-
-# rospy.sleep(1)
-# led_pub.publish(cyan)
-# rospy.sleep(1)
-# led_pub.publish(red)
-# rospy.sleep(1)
-# led_pub.publish(purple)
-# rospy.sleep(1)
-# led_pub.publish(yellow)
-# rospy.sleep(1)
 
 def callback(data):
     global gripper_state
@@ -89,57 +77,22 @@ def callback(data):
         print(11)
     # if data.buttons[0] and not data.buttons[4]:
     if data.buttons[0]:
-        # tts.say(u'Work it. Make it. Do it. Makes us.')
-        # rospy.sleep(4)
-        global color
-        color_arr = [green, green, green, green, green, green]
-        # color_arr = [blue, green, cyan, red, purple, yellow]
-        current_color_idx = 0
-        color = color_arr[current_color_idx]
-        move_joint_target(traj.conduct_start)
-        for _ in range(5):
-            move_joint_target(traj.conduct1)
-        # rospy.sleep(1)
-    # if data.buttons[1] and not data.buttons[4]:
-    if data.buttons[1]:
-        # move_joint_target(traj.frame_hood_off)
-        global color
-        color_arr = [green, green, green, green, green, green]
-        # color_arr = [blue, green, cyan, red, purple, yellow]
-        current_color_idx = 0
-        color = color_arr[current_color_idx]
-        move_joint_target(traj.standby)
-        # tts.say(u'Goodbye!')
-        # volume = 1.0
-        # rospy.sleep(1)
-    # elif data.buttons[2] and not data.buttons[4]:
+        # Toast raising movement
+        move_joint_target(traj.toast)
+    elif data.buttons[1]:
+        # Glass clinking movement start
+        move_joint_target(traj.clink_start)
+        rospy.sleep(1)
     elif data.buttons[2]:
-        global color
-        color_arr = [green, green, green, green, green, green]
-        # color_arr = [blue, green, cyan, red, purple, yellow]
-        current_color_idx = 0
-        color = color_arr[current_color_idx]
-        # move_joint_target(traj.wake_up2)
-        # move_joint_target(traj.flower_getgive)
-        # rospy.sleep(1.5)
-        # tts.say(say_congrats())
-        # rospy.sleep(1)
-        pass
-    # elif data.buttons[3] and not data.buttons[4]:
+        # Glass clinking movement
+        move_joint_target(traj.clink)
+        tts.say(u'Cheers!')
+        volume = 1.0
+        rospy.sleep(1)
     elif data.buttons[3]:
-        # tts.say(say_script())
-        # if show_text_state == 2:
-        #     move_joint_target(traj.wave_goodbye)
-        
-        # rospy.sleep(3)
-        # global show_text_state
-        # if show_text_state == 2:
-        #     show_text_state = 0
-        # else:
-        #     show_text_state += 1
-        # move_joint_target(traj.frame_last_move_4)
-        # tts.say(u'Hello')
-        # rospy.sleep(2)
+        # Selfie pose
+        move_joint_target(traj.selfie)
+    elif data.buttons[3]:
         pass
 
     if data.buttons[11]:  # if button 11 is pressed, close the gripper
